@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -64,10 +65,54 @@ public class Stopwatch extends JFrame {
 		gridConstraints.gridy = 0;
 		getContentPane().add(startTextField, gridConstraints);
 
-		
-		
-		
-		
+		stopButton.setText("Stop Timing");
+		gridConstraints.gridx = 0;
+		gridConstraints.gridy = 1;
+		getContentPane().add(stopButton, gridConstraints);
+
+		stopButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stopButtonActionPerformed(e);
+			}
+
+		});
+
+		stopLabel.setText("  Stop System Time  ");
+		gridConstraints.gridx = 1;
+		gridConstraints.gridy = 1;
+		getContentPane().add(stopLabel, gridConstraints);
+
+		stopTextField.setText("");
+		stopTextField.setColumns(20);
+		gridConstraints.gridx = 2;
+		gridConstraints.gridy = 1;
+		getContentPane().add(stopTextField, gridConstraints);
+
+		exitButton.setText("Close ALL Watches");
+		gridConstraints.gridx = 1;
+		gridConstraints.gridy = 3;
+		getContentPane().add(exitButton, gridConstraints);
+
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exitButtonActionPerformed(e);
+			}
+
+			
+
+		});
+
+		elapsedLabel.setText("  Elapsed Time Seconds  ");
+		gridConstraints.gridx = 1;
+		gridConstraints.gridy = 2;
+		getContentPane().add(elapsedLabel, gridConstraints);
+
+		elapsedTextField.setText("");
+		elapsedTextField.setColumns(20);
+		gridConstraints.gridx = 2;
+		gridConstraints.gridy = 2;
+		getContentPane().add(elapsedTextField, gridConstraints);
+
 		// Make the window visible, and set the size to either a fixed size, or
 		// have it packed tight
 		setLocationRelativeTo(null);
@@ -77,9 +122,35 @@ public class Stopwatch extends JFrame {
 
 	} // end of constructor
 
-	protected void startButtonActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	private void startButtonActionPerformed(ActionEvent e) {
+		startTime = System.currentTimeMillis();
 
+		Date startDate = new Date();
+		startTextField.setText(startDate.toString());
+		// startTextField.setText(String.valueOf(startTime));
+		stopTextField.setText("");
+		elapsedTextField.setText("");
+		timeStarted = true;
+
+	}
+
+	private void stopButtonActionPerformed(ActionEvent e) {
+		if (timeStarted) {
+			stopTime = System.currentTimeMillis();
+			Date stopDate = new Date();
+			stopTextField.setText(stopDate.toString());
+			// stopTextField.setText(String.valueOf(stopTime));
+			elapsedTime = (stopTime - startTime) / 1000.0;
+			elapsedTextField.setText(String.valueOf(elapsedTime));
+		} else {
+			return;
+		}
+
+	}
+	
+	private void exitButtonActionPerformed(ActionEvent e) {
+		System.exit(0);
+		
 	}
 
 } // end of class
